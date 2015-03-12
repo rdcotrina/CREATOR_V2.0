@@ -214,36 +214,6 @@ var '.$opcion.'_ = function(){
         });
     };
     
-    _public.postDelete'.$capitaleOpcion.'All = function(btn){
-        simpleScript.validaCheckBox({
-            id: "#"+tabs.'.$pre.'+"grid'.$capitaleOpcion.'",
-            msn: lang.mensajes.MSG_9,
-            fnCallback: function(){
-                simpleScript.notify.confirm({
-                    content: lang.mensajes.MSG_7,
-                    callbackSI: function(){
-                        simpleAjax.send({
-                            flag: 3, //si se usa SP usar flag, sino se puede eliminar esta linea
-                            element: btn,
-                            form: "#"+tabs.'.$pre.'+"formGrid'.$capitaleOpcion.'",
-                            root: _private.config.modulo + "delete'.$capitaleOpcion.'All",
-                            fnCallback: function(data) {
-                                if(!isNaN(data.result) && parseInt(data.result) === 1){
-                                    simpleScript.notify.ok({
-                                        content: lang.mensajes.MSG_8,
-                                        callback: function(){
-                                            '.$opcion.'.getGrid'.$capitaleOpcion.'(false);
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    };
-    
     return _public;
     
 };
