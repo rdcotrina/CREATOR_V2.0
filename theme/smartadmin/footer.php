@@ -33,8 +33,8 @@
 <!-- JQUERY MASKED INPUT -->
 <script src="<?php echo $rutaLayout['_js']; ?>plugin/masked-input/jquery.maskedinput.min.js"></script>
 
-<!-- JQUERY SELECT2 INPUT -->
-<script src="<?php echo $rutaLayout['_js']; ?>plugin/select2/select2.min.js"></script>
+<!-- JQUERY CHOSEN INPUT -->
+<script src="<?php echo BASE_URL ?>theme/smartadmin/js/plugin/chosen/chosen.jquery.js"></script>
 
 <!-- JQUERY UI + Bootstrap Slider -->
 <script src="<?php echo $rutaLayout['_js']; ?>plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
