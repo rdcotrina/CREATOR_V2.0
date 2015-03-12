@@ -59,28 +59,21 @@ class '.$capitaleOpcion.'Controller extends Controller{
     
     /*envia datos para grabar registro: '.$capitaleOpcion.'*/
     public function new'.$capitaleOpcion.'(){
-        $data = self::$'.$opcion.'Model->new'.$capitaleOpcion.'();
+        $data = self::$'.$opcion.'Model->mantenimiento'.$capitaleOpcion.'();
         
         echo json_encode($data);
     }
     
     /*envia datos para editar registro: '.$capitaleOpcion.'*/
     public function edit'.$capitaleOpcion.'(){
-        $data = self::$'.$opcion.'Model->edit'.$capitaleOpcion.'();
+        $data = self::$'.$opcion.'Model->mantenimiento'.$capitaleOpcion.'();
         
         echo json_encode($data);
     }
     
     /*envia datos para eliminar registro: '.$capitaleOpcion.'*/
     public function delete'.$capitaleOpcion.'(){
-        $data = self::$'.$opcion.'Model->delete'.$capitaleOpcion.'();
-        
-        echo json_encode($data);
-    }
-    
-    /*envia datos para eliminar registros: '.$capitaleOpcion.'*/
-    public function delete'.$capitaleOpcion.'All(){
-        $data = self::$'.$opcion.'Model->delete'.$capitaleOpcion.'All();
+        $data = self::$'.$opcion.'Model->mantenimiento'.$capitaleOpcion.'();
         
         echo json_encode($data);
     }

@@ -67,24 +67,14 @@ class '.$capitaleOpcion.'Model extends Model{
         return $data;
     }
     
-    /*grabar nuevo registro: '.$capitaleOpcion.'*/
-    public function new'.$capitaleOpcion.'(){
+    /*mantenimiento (CRUD) registro: '.$capitaleOpcion.'*/
+    public function mantenimiento'.$capitaleOpcion.'(){
         /*-------------------------LOGICA PARA EL INSERT------------------------*/
     }
     
     /*seleccionar registro a editar: '.$capitaleOpcion.'*/
     public function find'.$capitaleOpcion.'(){
         /*-----------------LOGICA PARA SELECT REGISTRO A EDITAR-----------------*/
-    }
-    
-    /*editar registro: '.$capitaleOpcion.'*/
-    public function edit'.$capitaleOpcion.'(){
-        /*-------------------------LOGICA PARA EL UPDATE------------------------*/
-    }
-    
-    /*eliminar varios registros: '.$capitaleOpcion.'*/
-    public function delete'.$capitaleOpcion.'All(){
-        /*--------------------------LOGICA PARA DELETE--------------------------*/
     }
     
 }
