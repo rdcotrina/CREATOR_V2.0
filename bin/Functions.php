@@ -300,7 +300,7 @@ class Functions{
         
         $html .= '<script>$("#'.$id.'").chosen();$("#'.$id.'_chosen").css("width","100%");</script>';
         if(!empty($etid)){
-            $html .= '<script>$("#'.$id.'").trigger("chosen:updated");</script>';
+            $html .= '<script>$("#'.$id.'").val("'.$etid.'").trigger("chosen:updated");</script>';
         }
         return $html;
     }
