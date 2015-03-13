@@ -7,6 +7,20 @@
  */
 class Functions{
     
+    private static function serialData($param,$row,$deli='',$subsre=1){
+        /*verificar si es array*/
+        $data = '';
+        if(is_array($param)){
+            foreach ($param as $p){
+                $data .= $row[$p].$deli;
+            }
+            $data = substr_replace($data, "", $subsre);
+        }else{
+            $data = $row[$param];
+        }
+        return $data;
+    }
+    
     public static function widgetOpen($obj){
         if(is_array($obj)){
             $id     = (isset($obj['id']))?$obj['id']:'';
@@ -132,9 +146,9 @@ class Functions{
                 if(is_array($etiq)){
                     $desc = '';
                     foreach ($etiq as $val) {
-                        $desc .= $item[$val].'-';
+                        $desc .= $item[$val].' - ';
                     }
-                    $desc = substr_replace($desc, "", -1);
+                    $desc = substr_replace($desc, "", -2);
                 }else{
                     $desc = $item[$etiq];
                 }
@@ -166,7 +180,130 @@ class Functions{
         //echo $html; exit();
         return $html;
     }
+    
+    /*
+     * INICIO -->> groupSelectHtml();
+     */
+    private static function optionGroup($obj,$mrginLeft=0){
+        $data = isset($obj['data'])?$obj['data']:array();
+        $etid  = isset($obj['defaultEtiqueta'])?$obj['defaultEtiqueta']:'';
+        $nivel = isset($obj['levels'])?$obj['levels']:'';
+        
+        $html = '';
+        $tmp = '';
+        
+        $label = isset($nivel['label'])?$nivel['label']:'';
+        $value = isset($nivel['value'])?$nivel['value']:'';
+        $disabled = isset($nivel['disabled'])?($nivel['disabled'])?'disabled':'':'';
+        $levels = isset($nivel['levels'])?$nivel['levels']:'';
 
+        /*primer nivel*/
+        foreach ($data as $row){
+            $id = self::serialData($value, $row, '*', 1);
+            /*se muestra los que no se duplican*/
+            if($tmp != $id){
+                $desc = self::serialData($label, $row, ' - ', -3);
+
+                $selected = '';
+                if ($id == $etid) {
+                    $selected = '  selected="selected"';
+                }
+                
+                $html .= '<option title="' . $desc . '" value="' . $id . '" ' . $disabled . ' style="margin-left:'.$mrginLeft.'px" '.$selected.'>' . $desc . '</option>';
+
+                /*si tiene sub niveles*/
+                if(is_array($levels) && !empty($levels)){                    
+                    $html .= self::optionGroup2($obj,$levels, $mrginLeft,$id);
+                }
+            }
+            $tmp = $id;
+
+        }           
+                           
+        return $html;
+    }
+    
+    private static function optionGroup2($obj,$levels, $mrginLeft,$idd){
+        $mrginLeft += 15; /*para la identacion*/
+        $data = isset($obj['data'])?$obj['data']:array();
+        $etid  = isset($obj['defaultEtiqueta'])?$obj['defaultEtiqueta']:'';
+        $nivel = $levels;
+        $html = '';
+        $temp = '';
+        
+        $label = isset($nivel['label'])?$nivel['label']:'';
+        $value = isset($nivel['value'])?$nivel['value']:'';
+        $disabled = isset($nivel['disabled'])?($nivel['disabled'])?'disabled':'':'';
+        $levell = isset($nivel['levels'])?$nivel['levels']:'';
+        $parent = isset($nivel['parent'])?$nivel['parent']:'';
+        
+        /*primer nivel*/        
+        foreach ($data as $row){
+            $ppar = self::serialData($parent, $row, '*', -1);
+            $id = self::serialData($value, $row, '*', -1);
+            
+            /*que no se repitan y pertenezcan a su parent*/
+            if($temp != $id && $ppar == $idd){
+                $desc = self::serialData($label, $row, ' - ', -3);
+            
+                $selected = '';
+                if ($id == $etid) {
+                    $selected = '  selected="selected"';
+                }
+                
+                $html .= '<option title="' . $desc . '" value="' . $id . '" ' . $disabled . ' style="margin-left:'.$mrginLeft.'px" '.$selected.'>' . $desc . '</option>';
+
+                /*si tiene sub niveles*/
+                if(is_array($levell) && !empty($levell)){
+                    $newId = $idd.'*'.$id;
+                    $html .= self::optionGroup2($obj,$levell, $mrginLeft,$newId);
+                }
+            }
+            $temp = $id;
+        }            
+                           
+        return $html;
+    }
+
+    public static function groupSelectHtml($obj) {
+        $data = isset($obj['data'])?$obj['data']:array();
+        $attr = isset($obj['atributes'])?$obj['atributes']:array();
+        $all  = isset($obj['txtAll'])?$obj['txtAll']:false;
+        $sel  = isset($obj['txtSelect'])?$obj['txtSelect']:true;        
+        
+        $id = '';
+        
+        $html = '<select ';
+        foreach ($attr as $key => $value) {
+            if($key == 'id'){ $id = $value;} /*para el select2*/
+            $html .= $key . '="' . $value . '" ';
+        }
+        $html .= '>';
+        
+        if (count($data) > 0) {
+            if ($sel){
+                $html .= '<option value="">Seleccionar</option>';
+            }
+            if ($all){
+                $html .= '<option value="ALL">Todo(s)</option>';
+            }
+            
+            $html .= self::optionGroup($obj);
+            
+
+            $html .= '</select>';
+        }
+        else{
+            $html .= '<option value=""> - Sin datos - </option></select>';
+        }
+        
+        $html .= '<script>$("#'.$id.'").chosen();$("#'.$id.'_chosen").css("width","100%");</script>';
+        return $html;
+    }
+
+    /*
+     * FIN -->> groupSelectHtml();
+     */
     public static function capitalize($cadena){
         $c = strtoupper (substr($cadena, 0,1));
         $d = substr($cadena, 1);
@@ -186,6 +323,46 @@ class Functions{
            $t.= '</tr>';
         }
         return $t;
+    }
+    
+    public static function labelState($e){
+        switch ($e) {
+            case 'A':
+                $c = 'label label-success';
+                $a = 'Activo';
+                break;
+            case 'I':
+                $c = 'label label-danger';
+                $a = 'Inactivo';
+                break;
+            default:
+                $c = '';
+                $a = '';
+        }
+        
+        return '<label class="'.$c.'">'.$a.'</label>';
+    }
+    
+    public static function labelClasificacionCP($e){
+        switch ($e) {
+            case 'A':
+                $c = 'label label-info';
+                $a = 'Aporte';
+                break;
+            case 'I':
+                $c = 'label label-success';
+                $a = 'Ingreso';
+                break;
+            case 'D':
+                $c = 'label label-danger';
+                $a = 'Descuento';
+                break;
+            default:
+                $c = '';
+                $a = '';
+        }
+        
+        return '<label class="'.$c.'">'.$a.'</label>';
     }
     
 }
