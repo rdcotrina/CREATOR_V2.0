@@ -270,6 +270,7 @@ class Functions{
         $attr = isset($obj['atributes'])?$obj['atributes']:array();
         $all  = isset($obj['txtAll'])?$obj['txtAll']:false;
         $sel  = isset($obj['txtSelect'])?$obj['txtSelect']:true;        
+        $etid  = isset($obj['defaultEtiqueta'])?$obj['defaultEtiqueta']:'';
         
         $id = '';
         
@@ -298,6 +299,9 @@ class Functions{
         }
         
         $html .= '<script>$("#'.$id.'").chosen();$("#'.$id.'_chosen").css("width","100%");</script>';
+        if(!empty($etid)){
+            $html .= '<script>$("#'.$id.'").trigger("chosen:updated");</script>';
+        }
         return $html;
     }
 
