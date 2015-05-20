@@ -1253,17 +1253,21 @@
                         }
                     });
                 };
-                /*onclick en <tr>*/
+                /*onclick en <tr>
+                 * oSettings.fnClickRow(function(fData,i){
+                    VacacionesScript.setData(fData,i);
+                });*/
                 oSettings.fnClickRow = function(fn) {
                     var objTd = [];
                     $('#' + oSettings.tObjectTable).find('tbody').find('tr').each(function(index) {
                         $(this).click(function() {
+                            objTd[index] = [];
                             /*recorrer <td>*/
                             $(this).find('td').each(function() {
                                 var c = $.trim($(this).html());
-                                objTd.push(c);
+                                objTd[index].push(c);
                             });
-                            fn(objTd);
+                            fn(objTd,index);
                         });
                     });
                 };

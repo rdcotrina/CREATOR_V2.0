@@ -61,7 +61,7 @@ class '.$capitaleOpcion.'Model extends Model{
             ":iDisplayLength" => $this->_pDisplayLength,
             ":sOrder" => $this->_pOrder,
             ":sSearch" => $this->_pSearch ,
-            ":sFilterCols" => $this->_sFilterCols,
+            ":sFilterCols" => $this->_sFilterCols
         );
         $data = $this->queryAll($query,$parms);
         return $data;

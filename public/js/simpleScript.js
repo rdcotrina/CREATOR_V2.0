@@ -301,8 +301,8 @@ var simpleScript_ = function() {
                 value = 'data[i].' + dataView.etiqueta;
                 value = eval(value);
             }
-            
-            if (deffault === eval(id)) {
+            sel = '';
+            if (deffault === id) {
                 sel = ' selected = "selected" ';
             }
             cb += '<option value="' + id + '" ' + sel + '>' + value + '</option>';

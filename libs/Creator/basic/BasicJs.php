@@ -22,7 +22,7 @@ var '.$opcion.'_ = function(){
     /*cargar requires*/
     /*descomentar de ser necesario
     simpleObject.require({
-        '.$opcion.': "'.$opcion.'Script"
+        '.$ruta['modulo'].': "'.$opcion.'Script"
     });
     */
     
